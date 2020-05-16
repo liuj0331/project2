@@ -22,10 +22,10 @@ function rowToObject(row){
 	  itemInfo: row.itemInfo,
 	};
 }
-app.get('/memories/:id', (request,response) => {
-	const query = 'SELECT userName, phone_Number, email, campus, itemName, itemInfo, id FROM memory WHERE is_deleted = 0 AND id = ? ORDER BY userName DESC, updated_at DESC';
+app.get('/memories/:userName', (request,response) => {
+	const query = 'SELECT userName, phone_Number, email, campus, itemName, itemInfo, id FROM memory WHERE is_deleted = 0 AND userName = ? ORDER BY userName DESC, updated_at DESC';
 	//const query = 'SELECT * FROM memory Where userName = ?';
-	const params = [request.params.id];
+	const params = [request.params.userName];
 	connection.query(query, params, (error, rows) => {
 		response.send({
 			ok: true,
