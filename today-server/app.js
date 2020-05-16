@@ -22,10 +22,10 @@ function rowToObject(row){
 	  itemInfo: row.itemInfo,
 	};
 }
-app.get('/memories/:userName', (request,response) => {
-	const query = 'SELECT userName, phone_Number, email, campus, itemName, itemInfo, id FROM memory WHERE is_deleted = 0 AND userName = ? ORDER BY userName DESC, updated_at DESC';
+app.get('/memories/:id', (request,response) => {
+	const query = 'SELECT userName, phone_Number, email, campus, itemName, itemInfo, id FROM memory WHERE is_deleted = 0 AND id = ? ORDER BY userName DESC, updated_at DESC';
 	//const query = 'SELECT * FROM memory Where userName = ?';
-	const params = [request.params.userName];
+	const params = [request.params.id];
 	connection.query(query, params, (error, rows) => {
 		response.send({
 			ok: true,
@@ -46,7 +46,7 @@ app.post('/memories', (request,response) => {
 	}); 
 });
 
-app.patch('/memories/:userName', (request,response) => {
+app.patch('/memories/:id', (request,response) => {
     const query = 'UPDATE memory SET userName = ?, phone_Number = ?, email = ?, campus = ?, itemName = ?, itemInfo = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?';
     const params = [request.body.userName, request.body.phone_Number, request.body.email, request.body.campus, request.body.itemName, request.body.itemInfo, request.params.id];
 
@@ -57,7 +57,7 @@ app.patch('/memories/:userName', (request,response) => {
     });
 });
 
-app.delete('/memories/:userName', (request,response) => {
+app.delete('/memories/:id', (request,response) => {
     const query = 'UPDATE memory SET is_deleted = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?';
     const params = [request.params.id];
 
