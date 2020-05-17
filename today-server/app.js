@@ -22,7 +22,7 @@ function rowToObject(row){
 	  itemInfo: row.itemInfo,
 	};
 }
-app.get('/memories/:userName', (request,response) => {
+app.get('/memories/userName/:userName', (request,response) => {
 	const query = 'SELECT userName, phone_Number, email, campus, itemName, itemInfo, id FROM memory WHERE is_deleted = 0 AND userName = ? ORDER BY userName DESC, updated_at DESC';
 	//const query = 'SELECT * FROM memory Where userName = ?';
 	const params = [request.params.userName];
@@ -32,6 +32,18 @@ app.get('/memories/:userName', (request,response) => {
 			memories: rows.map(rowToObject),
 		});
 	});
+});
+
+app.get('/memories/id/:id', (request,response) => {
+        const query = 'SELECT userName, phone_Number, email, campus, itemName, itemInfo, id FROM memory WHERE is_deleted = 0 AND id = ? ORDER BY userName DESC, updated_at DESC';
+        //const query = 'SELECT * FROM memory Where userName = ?';
+        const params = [request.params.id];
+        connection.query(query, params, (error, rows) => {
+                response.send({
+                        ok: true,
+                        memories: rows.map(rowToObject),
+                });
+        });
 });
 
 
